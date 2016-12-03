@@ -9,7 +9,6 @@ class UserController < ApplicationController
   end
 
   post '/signup' do
-    binding.pry
     if params[:username].empty? || params[:email].empty? || params[:password].empty?
       redirect to '/signup'
     else
@@ -19,9 +18,9 @@ class UserController < ApplicationController
     end
   end
 
-  # get '/logout' do
-  #   session[:user_id] = nil
-  #   redirect to '/'
-  # end
+  get '/logout' do
+    session[:user_id] = nil
+    redirect to '/'
+  end
 
 end
