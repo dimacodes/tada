@@ -6,3 +6,4 @@ class Something < ActiveRecord::Base
   belongs_to :nothings
 
 end
+ 

@@ -1,0 +1,13 @@
+<h1>Welcome, <%=current_user.username%>!</h1>
+<h2>Heres nothing:</h2>
+
+<br></br>
+
+<% @nothings.each do |nothing| %>
+<a href="/nothings/<%=nothing.id%>"><%= nothing.no_title %><br> </a>
+<%= nothing.no_content  %><br>
+<% end %>
+
+<br></br>
+
+<a href="/nothings/new"> Define Nothing <br> </a>

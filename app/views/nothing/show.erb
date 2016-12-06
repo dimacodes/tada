@@ -1,0 +1,15 @@
+<p><%= @nothing.no_title %> </p>
+<p><%= @nothing.no_content %> </p>
+
+
+<a href="/nothings/<%=@nothing.id%>/edit"> Edit <%= @nothing.no_title %> <br> </a>
+
+<form method="post" action="/nothings/<%=@nothing.id%>/delete">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete <%= @nothing.no_title %>">
+
+</form>
+
+<br></br>
+
+<a href="/something/new"> Add Something <br> </a>

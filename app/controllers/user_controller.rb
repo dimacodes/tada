@@ -18,9 +18,41 @@ class UserController < ApplicationController
     end
   end
 
-  get '/logout' do
-    session[:user_id] = nil
-    redirect to '/'
+  get '/login' do
+    if logged_in?
+      redirect to '/nothings'
+    else
+      erb :'users/login'
+    end
   end
+
+  post '/login' do
+    @user = User.find_by(username: params[:username])
+    if !params[:username].empty? && !params[:password].empty?
+      session[:user_id] = @user.id
+      redirect to '/nothings'
+    else
+      redirect to '/login'
+    end
+  end
+
+  get '/logout' do
+    if logged_in?
+      session.clear
+      redirect to '/login'
+    else
+      redirect to '/'
+    end
+  end
+
+  # get '/users/:slug' do
+  # @user = User.find_by_slug(params[:slug])
+  # erb :'users/?'
+  # end
+
+  # get '/logout' do
+  #   session[:user_id] = nil
+  #   redirect to '/'
+  # end
 
 end
