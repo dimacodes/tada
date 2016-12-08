@@ -2,7 +2,7 @@ class UserController < ApplicationController
 
   get '/signup' do
     if logged_in?
-      redirect to '/nothings'
+      redirect to '/nothing'
     else
       erb :'users/signup'
     end
@@ -14,13 +14,13 @@ class UserController < ApplicationController
     else
       @user = User.create(params)
       session[:user_id] = @user.id
-      redirect to '/nothings'
+      redirect to '/nothing'
     end
   end
 
   get '/login' do
     if logged_in?
-      redirect to '/nothings'
+      redirect to '/nothing'
     else
       erb :'users/login'
     end
@@ -30,7 +30,7 @@ class UserController < ApplicationController
     @user = User.find_by(username: params[:username])
     if !params[:username].empty? && !params[:password].empty?
       session[:user_id] = @user.id
-      redirect to '/nothings'
+      redirect to '/nothing'
     else
       redirect to '/login'
     end

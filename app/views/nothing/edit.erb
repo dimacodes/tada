@@ -1,9 +1,8 @@
 <h1> Edit Nothing: </h1>
 
-<form method="post" action="/nothings/<%=@nothing.id%>/edit">
+<form method="post" action="/nothing/<%=@nothing.id%>/edit">
 
   <input id="hidden" type="hidden" name="_method" value="PATCH">
-  Title: <input type="text" name="no_title" value="<%= @nothing.no_title %>">
-  Content: <input type="text" name="no_content" value="<%= @nothing.no_content %>">
-  <input type="submit" value="submit">
+  <input type="text" name="no_title" value="<%= @nothing.no_title %>">
+  <input type="submit" value="Click Here">
 </form>

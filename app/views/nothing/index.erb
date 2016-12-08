@@ -1,13 +1,22 @@
 <h1>Welcome, <%=current_user.username%>!</h1>
 <h2>Heres nothing:</h2>
 
-<br></br>
-
 <% @nothings.each do |nothing| %>
-<a href="/nothings/<%=nothing.id%>"><%= nothing.no_title %><br> </a>
-<%= nothing.no_content  %><br>
+<a href="/nothing/<%=nothing.id%>"><%= nothing.no_title %><br> </a>
 <% end %>
 
 <br></br>
 
-<a href="/nothings/new"> Define Nothing <br> </a>
+<form method="get" action="/nothing/new">
+    <button type="submit" value="submit">Define Nothing</button>
+</form>
+
+<br></br>
+
+<form method="get" action="/nothing">
+    <button type="submit" value="submit">Home</button>
+</form>
+
+<form method="get" action="/logout">
+    <button type="submit" value="submit">Log Out</button>
+</form>

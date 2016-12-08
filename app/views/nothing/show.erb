@@ -1,15 +1,47 @@
-<p><%= @nothing.no_title %> </p>
-<p><%= @nothing.no_content %> </p>
+
+<p>Nothing: <%= @nothing.no_title %> </p>
 
 
-<a href="/nothings/<%=@nothing.id%>/edit"> Edit <%= @nothing.no_title %> <br> </a>
+<form method="GET" action="/nothing/<%=@nothing.id%>/edit">
+    <input class='btn btn-primary' type='submit' value='Edit Nothing'>
+</form>
 
-<form method="post" action="/nothings/<%=@nothing.id%>/delete">
+<form method="POST" action="/nothing/<%=@nothing.id%>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
-  <input type="submit" value="Delete <%= @nothing.no_title %>">
+  <input type="submit" value="Delete Nothing">
+</form>
 
+
+<p>Something: <% @nothing.somethings.each do |something| %>
+<%= something.some_title %>
+<% end %></p>
+
+<form method="GET" action="/something">
+    <input class='btn btn-primary' type='submit' value='Edit Something'>
+</form>
+
+
+<form method="GET" action="/something">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete something">
+</form>
+
+
+
+<br>
+
+<form method='POST' action='/something/new'>
+  <input id="hidden" type="hidden" name="nothing_id" value="<%=@nothing.id%>">
+  Add Something to Nothing: <input type="text" name="some_title">
+  <button type="submit" value="submit">Click Here</button>
 </form>
 
 <br></br>
 
-<a href="/something/new"> Add Something <br> </a>
+<form method="get" action="/nothing">
+    <button type="submit" value="submit">Home</button>
+</form>
+
+<form method="get" action="/logout">
+    <button type="submit" value="submit">Log Out</button>
+</form>
