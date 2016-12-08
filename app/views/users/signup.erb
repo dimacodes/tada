@@ -1,5 +1,9 @@
 <h1> Please Sign Up! </h1>
 
+<!-- <% unless locals.empty? %>
+<%= message %>
+<% end %> -->
+
 <form method="POST" action="/signup">
 
   Username: <input type="text" name="username">
@@ -8,4 +12,9 @@
 
   <button type="submit" value="submit">sign up</button>
 
+</form>
+
+<br>
+
+Or <a href="/login">log in</a> if you are an existing user.
 </form>

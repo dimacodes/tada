@@ -9,8 +9,9 @@ class UserController < ApplicationController
   end
 
   post '/signup' do
-    if params[:username].empty? || params[:email].empty? || params[:password].empty?
+    if params[:username] == "" || params[:email] == "" || params[:password] == ""
       redirect to '/signup'
+      # , locals: {message: "Please fill out every field before you sign up"}
     else
       @user = User.create(params)
       session[:user_id] = @user.id

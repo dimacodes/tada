@@ -16,17 +16,18 @@
 <%= something.some_title %>
 <% end %></p>
 
-<form method="GET" action="/something">
-    <input class='btn btn-primary' type='submit' value='Edit Something'>
-</form>
+<% @nothing.somethings.each do |something| %>
+  <form method="GET" action="/something/<%=something.id%>/edit">
+  <input class='btn btn-primary' type='submit' value='Edit Something'>
+  </form>
+<% end %>
 
-
-<form method="GET" action="/something">
+<% @nothing.somethings.each do |something| %>
+  <form method="POST" action="/something/<%=something.id%>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
   <input type="submit" value="Delete something">
-</form>
-
-
+  </form>
+<% end %>
 
 <br>
 

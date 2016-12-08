@@ -18,7 +18,7 @@ class NothingController < ApplicationController
   end
 
   post '/nothing/new' do
-    if params[:no_content] != "" || params[:no_title] != ""
+    if params[:no_title] != "" || params[:no_content] != ""
       @nothing = Nothing.create(params)
       @nothing.user_id = current_user.id
       @nothing.save
@@ -26,6 +26,7 @@ class NothingController < ApplicationController
     end
   end
 
+  #find_by
   get '/nothing/:id' do
     if logged_in?
       @nothing = Nothing.find_by(:id => params[:id])
@@ -33,27 +34,19 @@ class NothingController < ApplicationController
     else
       redirect to '/login'
     end
-    #find_by
   end
 
+  #find_by
   post '/nothing/:id' do
     if logged_in?
       @nothing = Nothing.find_by(:id => params[:id])
       @nothing.update(params[:nothing])
-      # if !params[:something][:some_title].empty?
-      #   @nothing.something << Something.create(params[:something])
-      # end
       @nothing.save
       redirect to "/nothing/#{@nothing.id}"
-      # @something = Something.find_by(:id => params[:id])
-
     else
       redirect to '/login'
     end
-    #find_by
   end
-
-
 
   get '/nothing/:id/edit' do
     if logged_in?
@@ -61,23 +54,21 @@ class NothingController < ApplicationController
       erb :'/nothing/edit'
     else
       redirect to '/login'
-
     end
-    #find
   end
 
+  # update
   patch '/nothing/:id/edit' do
-
     if params[:no_content] != "" || params[:no_title] != ""
       @nothing = Nothing.find(params[:id])
-      @nothing.update(no_content: params[:no_content])
+      # @nothing.update(no_content: params[:no_content])
       @nothing.update(no_title: params[:no_title])
       @nothing.save
       redirect to "/nothing/#{@nothing.id}"
     end
-    # update
   end
 
+  #find, destroy
   delete '/nothing/:id/delete' do
     if logged_in?
       @nothing = Nothing.find(params[:id])
@@ -85,8 +76,6 @@ class NothingController < ApplicationController
       @nothing.destroy
       redirect to '/nothing'
     end
-
-    #find, destroy
   end
 
 end

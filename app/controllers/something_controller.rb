@@ -47,8 +47,7 @@ class SomethingController < ApplicationController
   end
 
   patch '/something/:id/edit' do
-    # if params[:no_content] != "" || params[:no_title] != ""
-    if params[:some_title] != ""
+    if params[:some_title] != "" || params[:no_content] != ""
       @something = Something.find(params[:id])
       # @something.update(no_content: params[:no_content])
       @something.update(some_title: params[:some_title])
