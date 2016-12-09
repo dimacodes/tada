@@ -2,7 +2,7 @@ class NothingController < ApplicationController
 
   get '/nothing' do
     if logged_in?
-      @nothings = Nothing.where(:user_id => current_user.id)
+      @nothings = current_user.nothings
       erb :'nothing/index'
     else
       redirect to '/login'
@@ -18,7 +18,9 @@ class NothingController < ApplicationController
   end
 
   post '/nothing/new' do
-    if params[:no_title] != "" || params[:no_content] != ""
+    if params[:no_title].strip.empty?
+      erb :'nothing/new', locals: {message: "Please define nothing."}
+    else
       @nothing = Nothing.create(params)
       @nothing.user_id = current_user.id
       @nothing.save
@@ -49,19 +51,24 @@ class NothingController < ApplicationController
   end
 
   get '/nothing/:id/edit' do
+    @nothing = Nothing.find(params[:id])
     if logged_in?
-      @nothing = Nothing.find(params[:id])
+      if @nothing.user_id == session[:user_id]
       erb :'/nothing/edit'
+      else
+        erb :'/nothing/show', locals: {message: "Sorry, you do not have permission to edit or delete."}
+      end
     else
-      redirect to '/login'
+      erb :'/users/login', locals: {message: "Please log in."}
     end
   end
 
   # update
   patch '/nothing/:id/edit' do
-    if params[:no_content] != "" || params[:no_title] != ""
-      @nothing = Nothing.find(params[:id])
-      # @nothing.update(no_content: params[:no_content])
+    @nothing = Nothing.find(params[:id])
+    if params[:no_title].strip.empty?
+      erb :'/nothing/edit', locals: {message: "Please edit nothing."}
+    else
       @nothing.update(no_title: params[:no_title])
       @nothing.save
       redirect to "/nothing/#{@nothing.id}"
@@ -70,6 +77,7 @@ class NothingController < ApplicationController
 
   #find, destroy
   delete '/nothing/:id/delete' do
+    # include resource guarding
     if logged_in?
       @nothing = Nothing.find(params[:id])
       @nothing.user_id == current_user.id

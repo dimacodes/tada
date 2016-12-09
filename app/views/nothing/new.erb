@@ -1,5 +1,9 @@
 <h1> Define Nothing: </h1>
 
+<% unless locals.empty? %>
+<%= message %>
+<% end %>
+
 <form method='POST' action='/nothing/new'>
 
 <input type="text" name="no_title">

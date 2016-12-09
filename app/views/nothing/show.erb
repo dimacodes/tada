@@ -1,5 +1,5 @@
-
 <p>Nothing: <%= @nothing.no_title %> </p>
+<% if @nothing.user_id == session[:user_id] %>
 
 
 <form method="GET" action="/nothing/<%=@nothing.id%>/edit">
@@ -12,30 +12,30 @@
 </form>
 
 
-<p>Something: <% @nothing.somethings.each do |something| %>
-<%= something.some_title %>
-<% end %></p>
-
 <% @nothing.somethings.each do |something| %>
-  <form method="GET" action="/something/<%=something.id%>/edit">
-  <input class='btn btn-primary' type='submit' value='Edit Something'>
-  </form>
-<% end %>
-
-<% @nothing.somethings.each do |something| %>
-  <form method="POST" action="/something/<%=something.id%>/delete">
-  <input id="hidden" type="hidden" name="_method" value="DELETE">
-  <input type="submit" value="Delete something">
-  </form>
+<p>Something: <%= something.some_title %></p>
+<form method="GET" action="/something/<%=something.id%>/edit">
+<input class='btn btn-primary' type='submit' value='Edit Something'>
+</form>
+<form method="POST" action="/something/<%=something.id%>/delete">
+<input id="hidden" type="hidden" name="_method" value="DELETE">
+<input type="submit" value="Delete something">
+</form>
 <% end %>
 
 <br>
 
 <form method='POST' action='/something/new'>
   <input id="hidden" type="hidden" name="nothing_id" value="<%=@nothing.id%>">
+
+  <% unless locals.empty? %>
+  <%= message %>
+  <% end %><br>
+
   Add Something to Nothing: <input type="text" name="some_title">
   <button type="submit" value="submit">Click Here</button>
 </form>
+<% end %>
 
 <br></br>
 

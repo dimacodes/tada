@@ -1,6 +1,11 @@
 <h1> Edit Nothing: </h1>
 
-<form method="post" action="/nothing/<%=@nothing.id%>/edit">
+<% unless locals.empty? %>
+<%= message %>
+<% end %>
+
+
+<form method="POST" action="/nothing/<%=@nothing.id%>/edit">
 
   <input id="hidden" type="hidden" name="_method" value="PATCH">
   <input type="text" name="no_title" value="<%= @nothing.no_title %>">

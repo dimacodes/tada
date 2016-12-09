@@ -1,13 +1,13 @@
 class SomethingController < ApplicationController
 
-  get '/something' do
-    if logged_in?
-      @somethings = Something.where(:user_id => current_user.id)
-      erb :'something/index'
-    else
-      redirect to '/login'
-    end
-  end
+  # get '/something' do
+  #   if logged_in?
+  #     @somethings = Something.where(:user_id => current_user.id)
+  #     erb :'something/index'
+  #   else
+  #     redirect to '/login'
+  #   end
+  # end
 
   # get '/something/new' do
   #   if logged_in?
@@ -18,41 +18,48 @@ class SomethingController < ApplicationController
   # end
 
   post '/something/new' do
-
-    if params[:some_content] != "" || params[:some_title] != ""
-      @nothing = Nothing.find(params[:nothing_id])
+    @nothing = Nothing.find(params[:nothing_id])
+    if params[:some_title].strip.empty?
+      erb :'/nothing/show', locals: {message: "Please try again."}
+    else
       @nothing.somethings << Something.create(params)
       @nothing.save
       redirect to "/nothing/#{@nothing.id}"
     end
   end
 
-  get '/something/:id' do
-    if logged_in?
-      @something = Something.find_by(:id => params[:id])
-      erb :'/something/show'
-    else
-      redirect to '/login'
-    end
-    #find_by
-  end
+  # get '/something/:id' do
+  #   if logged_in?
+  #     @something = Something.find_by(:id => params[:id])
+  #     erb :'/something/show'
+  #   else
+  #     redirect to '/login'
+  #   end
+  #   #find_by
+  # end
 
   get '/something/:id/edit' do
+    @something = Something.find(params[:id])
+    @something.user_id = current_user.id
     if logged_in?
-      @something = Something.find(params[:id])
-      erb :'/something/edit'
+      if @something.user_id == session[:user_id]
+        erb :'/something/edit'
+      else
+        redirect to '/login'
+      end
     else
-      redirect to '/login'
+      erb :'/users/login'
     end
   end
 
   patch '/something/:id/edit' do
-    if params[:some_title] != "" || params[:no_content] != ""
-      @something = Something.find(params[:id])
-      # @something.update(no_content: params[:no_content])
+    @something = Something.find(params[:id])
+    if params[:some_title].strip.empty?
+      erb :'/something/edit', locals: {message: "Please try again."}
+    else
       @something.update(some_title: params[:some_title])
       @something.save
-      redirect to "/something/#{@something.id}"
+      redirect to "/nothing/#{@something.nothing_id}"
     end
   end
 
@@ -60,17 +67,10 @@ class SomethingController < ApplicationController
     if logged_in?
       @something = Something.find(params[:id])
       @something.user_id == current_user.id
+      @nothing = @something.nothing_id
       @something.destroy
-      redirect to "/nothing/#{@nothing.id}"
+      redirect to "/nothing/#{@nothing}"
     end
-
-    #find, destroy
   end
 
 end
-
-#form for editing something:
-# <form method="get" action="/something/<%=@something.id%>/edit">
-#
-#     <input class='btn btn-primary' type='submit' value='Edit Something'>
-# </form>

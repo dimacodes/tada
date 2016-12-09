@@ -9,9 +9,8 @@ class UserController < ApplicationController
   end
 
   post '/signup' do
-    if params[:username] == "" || params[:email] == "" || params[:password] == ""
-      redirect to '/signup'
-      # , locals: {message: "Please fill out every field before you sign up"}
+    if params[:username].strip.empty? || params[:email].strip.empty? || params[:password].strip.empty?
+      erb :'users/signup', locals: {message: "Please try again!"}
     else
       @user = User.create(params)
       session[:user_id] = @user.id
@@ -28,12 +27,13 @@ class UserController < ApplicationController
   end
 
   post '/login' do
-    @user = User.find_by(username: params[:username])
-    if !params[:username].empty? && !params[:password].empty?
-      session[:user_id] = @user.id
+    # if !params[:username].empty? && !params[:password].empty?
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
       redirect to '/nothing'
     else
-      redirect to '/login'
+      erb :'users/login', locals: {message: "Please try again!"}
     end
   end
 
