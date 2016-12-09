@@ -17,6 +17,7 @@ class NothingController < ApplicationController
     end
   end
 
+  # create
   post '/nothing/new' do
     if params[:no_title].strip.empty?
       erb :'nothing/new', locals: {message: "Please define nothing."}
@@ -75,9 +76,8 @@ class NothingController < ApplicationController
     end
   end
 
-  #find, destroy
+  #destroy
   delete '/nothing/:id/delete' do
-    # include resource guarding
     if logged_in?
       @nothing = Nothing.find(params[:id])
       @nothing.user_id == current_user.id

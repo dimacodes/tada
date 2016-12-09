@@ -27,7 +27,6 @@ class UserController < ApplicationController
   end
 
   post '/login' do
-    # if !params[:username].empty? && !params[:password].empty?
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
@@ -46,14 +45,12 @@ class UserController < ApplicationController
     end
   end
 
+end
+
+  # Notes:
+  # Implement user show page?
+
   # get '/users/:slug' do
   # @user = User.find_by_slug(params[:slug])
-  # erb :'users/?'
+  # erb :'users/show'
   # end
-
-  # get '/logout' do
-  #   session[:user_id] = nil
-  #   redirect to '/'
-  # end
-
-end
